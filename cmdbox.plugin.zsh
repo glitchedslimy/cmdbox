@@ -14,8 +14,16 @@ ensure_cmdbox_dir() {
 # Save a command with a keyword
 cmdbox_save_command() {
     ensure_cmdbox_dir  # Ensure the directory exists
-    read -p "Enter keyword: " keyword
-    read -p "Enter command: " command
+    echo "Enter keyword:"
+    read keyword
+    echo "Enter command:"
+    read command
+
+    if [[ -z "$keyword" || -z "$command" ]]; then
+        echo "Keyword and command cannot be empty."
+        return
+    fi
+
     echo "$command" > "$CMDBOX_DIR/$keyword"
     echo "Cmdbox Saved: $keyword -> $command"
 }
