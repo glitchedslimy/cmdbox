@@ -33,6 +33,7 @@ function load_ncurses() {
 }
 
 # Show a simple menu using ncurses
+# Show a simple menu using ncurses
 function show_menu() {
     local options=("Save Command" "Use Command" "List Commands" "Help" "Exit")
     local selected=1  # Start with the first option highlighted
@@ -42,21 +43,22 @@ function show_menu() {
     echo
 
     while true; do
-        for (( i=1; i<=${#options[@]}; i++ )); do
-            if (( i == selected )); then
-                echo -e "\e[1;32m> ${options[i-1]}\e[0m"  # Highlight the selected option
+        # Display the options
+        for (( i=0; i<${#options[@]}; i++ )); do
+            if (( selected == i + 1 )); then
+                echo -e "\e[1;32m> ${options[i]}\e[0m"  # Highlight the selected option
             else
-                echo "  ${options[i-1]}"
+                echo "  ${options[i]}"
             fi
         done
 
-        read -rsn1 input
+        read -rsn1 input  # Read a single character
         case $input in
             $'\e[B')  # Down arrow
-                ((selected=(selected % ${#options[@]}) + 1))
+                ((selected=(selected % ${#options[@]}) + 1))  # Increment with wrap around
                 ;;
             $'\e[A')  # Up arrow
-                ((selected=(selected - 2 + ${#options[@]}) % ${#options[@]} + 1))
+                ((selected=(selected - 2 + ${#options[@]}) % ${#options[@]} + 1))  # Decrement with wrap around
                 ;;
             "")
                 case ${options[selected-1]} in
@@ -70,7 +72,7 @@ function show_menu() {
                         cmdbox_list_commands_prompt
                         ;;
                     "Help")
-                        cmdbox_help_command_prompt  # Fixed typo here
+                        cmdbox_help_command_prompt
                         ;;
                     "Exit")
                         tput clear
