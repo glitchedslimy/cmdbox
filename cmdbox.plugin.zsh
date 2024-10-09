@@ -35,18 +35,17 @@ function load_ncurses() {
 
 # Show a simple menu using ncurses
 function show_menu() {
-    local options =("Save command" "Use command" "List commands" "Help" "Exit")
+    local options=("Save Command" "Use Command" "List Commands" "Help" "Exit")
     local selected=0
 
-
     tput clear
-    echo "====CmdBox Command Menu===="
+    echo "==== Cmdbox Command Menu ===="
     echo
 
     while true; do
         for i in "${!options[@]}"; do
             if [[ $i -eq $selected ]]; then
-                echo -e "\e[1;32m> ${options[$i]}\e[0m" # Highlight the selected option
+                echo -e "\e[1;32m> ${options[$i]}\e[0m"  # Highlight the selected option
             else
                 echo "  ${options[$i]}"
             fi
@@ -54,25 +53,25 @@ function show_menu() {
 
         read -rsn1 input
         case $input in
-            $'\e[B') # Down Arrow
+            $'\e[B')  # Down arrow
                 ((selected=(selected+1)%${#options[@]}))
                 ;;
-            $'\e[A') # Up Arrow
+            $'\e[A')  # Up arrow
                 ((selected=(selected-1+${#options[@]})%${#options[@]}))
                 ;;
             "")
                 case ${options[selected]} in
-                    "Save command")
+                    "Save Command")
                         cmdbox_save_command_prompt
                         ;;
-                    "Use command")
+                    "Use Command")
                         cmdbox_use_command_prompt
                         ;;
-                    "List commands")
+                    "List Commands")
                         cmdbox_list_commands_prompt
                         ;;
                     "Help")
-                        cmdbox_help_command_prompt
+                        cmdbox_help_command_propmpt
                         ;;
                     "Exit")
                         tput clear
