@@ -15,12 +15,6 @@ ensure_cmdbox_dir() {
 cmdbox_save_command() {
     ensure_cmdbox_dir  # Ensure the directory exists
 
-    # Check if enough arguments are provided
-    if [[ $# -lt 2 ]]; then
-        echo "Usage: cmdbox save keyword \"command\""
-        return
-    fi
-
     local keyword="$1"   # The first argument is the keyword
     shift                 # Remove the keyword from the arguments
 
