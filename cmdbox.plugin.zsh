@@ -15,6 +15,7 @@ ensure_cmdbox_dir() {
 cmdbox_save_command() {
     ensure_cmdbox_dir  # Ensure the directory exists
 
+    # Check if enough arguments are provided
     if [[ $# -lt 2 ]]; then
         echo "Usage: cmdbox save keyword \"command\""
         return
@@ -22,13 +23,17 @@ cmdbox_save_command() {
 
     local keyword="$1"
     shift
+
+    # Join the remaining arguments as a command string
     local command="$*"
 
+    # Check if the keyword or command is empty
     if [[ -z "$keyword" || -z "$command" ]]; then
         echo "Keyword and command cannot be empty."
         return
     fi
 
+    # Save the command to the specified file
     echo "$command" > "$CMDBOX_DIR/$keyword"
     echo "Cmdbox Saved: $keyword -> $command"
 }
