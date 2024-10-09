@@ -21,10 +21,10 @@ cmdbox_save_command() {
         return
     fi
 
-    local keyword="$1"
-    shift
+    local keyword="$1"   # The first argument is the keyword
+    shift                 # Remove the keyword from the arguments
 
-    # Join the remaining arguments as a command string
+    # Join the remaining arguments into a single command string
     local command="$*"
 
     # Check if the keyword or command is empty
