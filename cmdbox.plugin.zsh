@@ -1,8 +1,7 @@
-
 # Check for the directory to save commands
 CMDBOX_DIR="$HOME/.cmdbox"
 if [[ ! -d $CMDBOX_DIR ]]; then
-    mkdir -p $CMDBOX_DIR
+    mkdir -p "$CMDBOX_DIR"
 fi
 
 # Install ncurses
@@ -18,7 +17,7 @@ function install_ncurses() {
     elif command -v brew &> /dev/null; then
         brew install ncurses
     else
-        echo "Unsuported package manager. Please install ncurses manually."
+        echo "Unsupported package manager. Please install ncurses manually."
         return 1
     fi
 
@@ -71,7 +70,7 @@ function show_menu() {
                         cmdbox_list_commands_prompt
                         ;;
                     "Help")
-                        cmdbox_help_command_propmpt
+                        cmdbox_help_command_prompt  # Fixed typo here
                         ;;
                     "Exit")
                         tput clear
@@ -84,13 +83,15 @@ function show_menu() {
     done
 }
 
+# Save a command with a keyword
 cmdbox_save_command_prompt() {
     read -p "Enter keyword: " keyword
     read -p "Enter command: " command
     echo "$command" > "$CMDBOX_DIR/$keyword"
-    echo "cmdbox Saved: $keyword -> $command"
+    echo "Cmdbox Saved: $keyword -> $command"
 }
 
+# Use a saved command
 cmdbox_use_command_prompt() {
     echo "Select a command to use"
     local cmdbox_file
@@ -102,11 +103,11 @@ cmdbox_use_command_prompt() {
     fi
     
     local command=$(cat "$CMDBOX_DIR/$cmdbox_file")
-    echo "cmdbox command for '$cmdbox_file': $command"
+    echo "Cmdbox command for '$cmdbox_file': $command"
 
     # Confirm before executing
     read "response?Run this command? [y/N]: "
-    if [["$response" =~ ^[Yy]$ ]]; then
+    if [[ "$response" =~ ^[Yy]$ ]]; then  # Fixed syntax here
         eval "$command"
     else
         echo "Command aborted."
@@ -122,8 +123,9 @@ cmdbox_list_commands_prompt() {
     done
 }
 
+# Help command
 cmdbox_help_command_prompt() {
-    echo "CmdBox Plugin - Command shortcuts:"
+    echo "Cmdbox Plugin - Command shortcuts:"
     echo " Save command: Save a command with a keyword"
     echo " Use command: Use a command already saved."
     echo " List commands: List all commands inside your cmdbox folder"
