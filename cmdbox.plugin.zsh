@@ -4,8 +4,16 @@ if [[ ! -d $CMDBOX_DIR ]]; then
     mkdir -p "$CMDBOX_DIR"
 fi
 
+# Function to ensure the CMDBOX_DIR exists
+ensure_cmdbox_dir() {
+    if [[ ! -d $CMDBOX_DIR ]]; then
+        mkdir -p "$CMDBOX_DIR"
+    fi
+}
+
 # Save a command with a keyword
 cmdbox_save_command() {
+    ensure_cmdbox_dir  # Ensure the directory exists
     read -p "Enter keyword: " keyword
     read -p "Enter command: " command
     echo "$command" > "$CMDBOX_DIR/$keyword"
@@ -14,6 +22,7 @@ cmdbox_save_command() {
 
 # Use a saved command
 cmdbox_use_command() {
+    ensure_cmdbox_dir  # Ensure the directory exists
     echo "Available commands:"
     ls "$CMDBOX_DIR"
 
@@ -37,6 +46,7 @@ cmdbox_use_command() {
 
 # List saved cmdbox commands
 cmdbox_list_commands() {
+    ensure_cmdbox_dir  # Ensure the directory exists
     echo "Saved cmdbox commands:"
     for cmdbox_file in "$CMDBOX_DIR"/*; do
         local keyword=$(basename "$cmdbox_file")
@@ -74,5 +84,5 @@ cmdbox() {
     esac
 }
 
-# Usage example
-# cmdbox <subcommand>
+# Ensure the CMDBOX_DIR exists at the start
+ensure_cmdbox_dir
