@@ -14,10 +14,15 @@ ensure_cmdbox_dir() {
 # Save a command with a keyword
 cmdbox_save_command() {
     ensure_cmdbox_dir  # Ensure the directory exists
-    echo "Enter keyword:"
-    read keyword
-    echo "Enter command:"
-    read command
+
+    if [[ $# -lt 2 ]]; then
+        echo "Usage: cmdbox save keyword \"command\""
+        return
+    fi
+
+    local keyword="$1"
+    shift
+    local command="$*"
 
     if [[ -z "$keyword" || -z "$command" ]]; then
         echo "Keyword and command cannot be empty."
